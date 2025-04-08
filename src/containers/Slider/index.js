@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useData } from "../../contexts/DataContext";
 import { getMonth } from "../../helpers/Date";
 
@@ -7,24 +7,35 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
-  const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+
+  // modif de l'ordre d'affichage en changeant evtA > evtB
+  const byDateDesc = [...(data?.focus || [])].sort((evtA, evtB) =>
+    new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
   );
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIndex(index < byDateDesc.length - 1 ? index + 1 : 0);
+  //   }, 5000);
+
+  //   return () => clearTimeout(timer);
+  // }, [index, byDateDesc]);
+  // // console.log("byDateDesc :", byDateDesc);
   const nextCard = () => {
     setTimeout(
-      () => setIndex(index < byDateDesc.length ? index + 1 : 0),
+      () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0),
       5000
     );
   };
   useEffect(() => {
     nextCard();
-  });
+  }, [index, byDateDesc]);
+
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        <div key={event.id ?? `fallback-${idx}`} className="SlideCardContainer">
           <div
-            key={event.title}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -40,17 +51,18 @@ const Slider = () => {
           </div>
           <div className="SlideCard__paginationContainer">
             <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
+              {byDateDesc?.map((_, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+                  key={`radio-${event.id ?? `fallback-${radioIdx}`}`} // si event.id est undefined, la key sera fallback-0, fallback-1, etc., évitant les doublons.
                   type="radio"
                   name="radio-button"
-                  checked={idx === radioIdx}
+                  checked={index === radioIdx}
+                  readOnly
                 />
               ))}
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );
