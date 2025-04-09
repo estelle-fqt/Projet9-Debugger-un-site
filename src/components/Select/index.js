@@ -18,7 +18,7 @@ const Select = ({
   const changeValue = (newValue) => {
     setValue(newValue);
     setCollapsed(true); // initialement "newValue" = string dc erreur
-    onChange(newValue); // initialement : appelé mais ne reçoi pas "newValue"
+    onChange(newValue); // initialement () vide: appelé mais ne reçoi pas "newValue"
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">

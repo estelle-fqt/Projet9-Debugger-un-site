@@ -9,13 +9,13 @@ const Menu = () => (
     <Logo />
     <ul>
       <li>
-        <a href="#ServicesContainer">Nos services</a>
+        <a href="#nos-services">Nos services</a>
       </li>
       <li>
-        <a href="#EventsContainer">Nos réalisations</a>
+        <a href="#nos-realisations">Nos réalisations</a>
       </li>
       <li>
-        <a href="#PeoplesContainer">Notre équipe</a>
+        <a href="#notre-equipe">Notre équipe</a>
       </li>
     </ul>
     <Button

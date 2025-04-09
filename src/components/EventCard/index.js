@@ -1,12 +1,10 @@
 import PropTypes from "prop-types";
 import { getMonth } from "../../helpers/Date";
 
-import cover from "../../contexts/DataContext";
-
 import "./style.scss";
 
 const EventCard = ({
-  imageSrc = cover.id,
+  imageSrc,
   imageAlt,
   date = new Date(),
   title,

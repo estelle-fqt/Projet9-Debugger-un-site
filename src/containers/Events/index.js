@@ -13,6 +13,7 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+
   // initialement ds filteredEvents le filtrage ne se fait jamais car le type est ignoré
   // const filteredEvents = ((!type ? data?.events : data?.events) || []).filter(
   //   (event, index) => {
@@ -26,17 +27,17 @@ const EventList = () => {
   //   }
   // );
 
-  // calcul du nbr total d'évents filtrés
+  // calcul du nbr total d'évents filtrés selon le type
   const totalFiltered = (data?.events || []).filter((event) =>
     type ? event.type === type : true
   ).length;
 
-  // correction de filteredEvents : filtrage + pagination
+  // liste des events filtrés et pagination
   const filteredEvents = (data?.events || [])
     .filter((event) => (type ? event.type === type : true))
     .slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
-  // calcul du nbr de page
+  // calcul du nbr de page selon nbr events filtrés
   const pageNumber = Math.ceil(totalFiltered / PER_PAGE);
 
   const changeType = (evtType) => {

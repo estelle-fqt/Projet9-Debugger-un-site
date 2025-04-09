@@ -23,15 +23,15 @@ export const DataProvider = ({ children }) => {
 
   const getData = useCallback(async () => {
     try {
+      // suppression setData(await api.loadData());
+      // ajout const loadedData
       const loadedData = await api.loadData();
-
       setData(loadedData);
 
-      // Calculer la dernière prestation
+      // ajout calcul dernière prestation
       const sortedEvents = loadedData.events
         .map((event) => ({ ...event, date: new Date(event.date) })) // Convertir en date
         .sort((a, b) => b.date - a.date); // Trier du plus récent au plus ancien
-
       setLast(sortedEvents[0]); // Dernière prestation
     } catch (err) {
       setError(err);
@@ -42,6 +42,7 @@ export const DataProvider = ({ children }) => {
     if (data) return;
     getData();
   }, [data, getData]);
+  // ajout tab des dépendances
 
   return (
     <DataContext.Provider
